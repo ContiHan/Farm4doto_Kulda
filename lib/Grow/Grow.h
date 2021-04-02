@@ -16,27 +16,27 @@ class Crop
 		// constructor that needs 6 specific values
     	Crop(byte pump_pin, byte sensor_pin, int sensor_air, int sensor_water, byte moisture_limit, int watering_time, int watering_hour);
 
-		// instance variables
+		// public instance variables
 
-    	// instance methods
+    	// public instance methods
     	void init();
 		void set_watering_days(bool mon, bool tue, bool wed, bool thu, bool fri, bool sat, bool sun);
 		int get_moisture_meter_value();
     	byte get_moisture_meter_percent_value();
     	void watering();
 		byte get_watering_hour();
-		bool is_watering_day();
-		bool is_watering_hour();
-		bool is_watering_minute();
-		bool is_moisture_level_low();
+		bool is_in_watering_day();
+		bool is_in_watering_hour();
+		bool is_in_watering_minute();
+		bool moisture_level_is_low();
 
-    	// class methods
+    	// public class methods
 		static void set_elapsed_time_check(byte minute);
     	static void set_vcc_soil_moisture_meters_pin(byte vcc_pin);
     	static byte get_vcc_soil_moisture_meters_pin();
 
 	private:
-    	// instance variables
+    	// private instance variables
     	byte _soil_mosture_percent;
     	byte _pump_relay_pin;
     	byte _moisture_meter_pin;
@@ -49,14 +49,14 @@ class Crop
 		RTC_DS1307 _rtc;
 		DateTime _last_check, _curr_check;
 
-    	// class variables
+    	// private class variables
     	static byte _vcc_moisture_meters_pin;
 		static byte _elapsed_time;
 
-    	// instance methods
+    	// private instance methods
     	void _pump_relay_init();
 
-    	// class methods
+    	// private class methods
     	static void _moisture_meters_init();
 };
 
@@ -66,20 +66,20 @@ class Button
 		// constructor, that needs pin as argument
 		Button(byte button_pin);
 
-		// instance variable
-		bool button_last_state;
-		bool button_curr_state;
+		// public instance variable
 
-		// instance methods
+		// public instance methods
 		void init();
 		bool button_is_pressed();
 		bool button_is_released();
 
 	private:
-		// instance variables
+		// private instance variables
 		byte _button_pin;
+		bool _button_last_state;
+		bool _button_curr_state;
 
-		// instance mathods
+		// private instance mathods
 		bool _get_button_change(bool required_last_state, bool requried_curr_state);
 };
 

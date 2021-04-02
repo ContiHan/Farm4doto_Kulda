@@ -3,6 +3,7 @@
 // přejmenovat všechny metody tak, aby se v kódu četly jako věta
 // RTC se přesune i do GROW knihovny, zkontrolovat, jestli je potřeba znovu initovat modul
 // Zlepšit metody u Crop třídních metod, jestli nebude lepší dát to do jedné s více vstupními parametry
+// Zkontrolovat, co musí být a co musí a nemusí být v private sekci
 
 
 #include <Arduino.h>
@@ -130,7 +131,7 @@ void setup()
 // checks if it is ideal hour for watering specific crop
 void water_at_right_time(Crop crop)
 {
-	if (crop.is_watering_day() && crop.is_watering_hour() && crop.is_watering_minute() && crop.is_moisture_level_low())
+	if (crop.is_in_watering_day() && crop.is_in_watering_hour() && crop.is_in_watering_minute() && crop.moisture_level_is_low())
 	{
 		crop.watering();
 	}

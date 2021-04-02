@@ -107,14 +107,14 @@ byte Crop::get_watering_hour()
 }
 
 // true if today is watering day
-bool Crop::is_watering_day()
+bool Crop::is_in_watering_day()
 {
 	_curr_check = _rtc.now();	
 	return _watering_days[_curr_check.dayOfTheWeek()];
 }
 
 // true if current hour is watering hour
-bool Crop::is_watering_hour()
+bool Crop::is_in_watering_hour()
 {
 	bool value = false;
 	_curr_check = _rtc.now();
@@ -126,7 +126,7 @@ bool Crop::is_watering_hour()
 }
 
 // true if current minute is watering minute
-bool Crop::is_watering_minute()
+bool Crop::is_in_watering_minute()
 {
 	bool value = false;
 	_curr_check = _rtc.now();
@@ -152,7 +152,7 @@ bool Crop::is_watering_minute()
 }
 
 // true if moisture level is low
-bool Crop::is_moisture_level_low()
+bool Crop::moisture_level_is_low()
 {
 	bool value = false;
 	if (get_moisture_meter_percent_value() < _moisture_limit)
@@ -203,7 +203,7 @@ void Crop::_moisture_meters_init()
 Button::Button(byte button_pin)
 {
 	_button_pin = button_pin;
-	button_last_state = LOW;
+	_button_last_state = LOW;
 }
 
 // initializes button instance
@@ -231,13 +231,13 @@ bool Button::_get_button_change(bool required_last_state, bool required_curr_sta
 {
 	bool value = false;
 	// reads value from pin, that needs to be negate, because INPUT_PULLUP MODE returns LOW = pressed, HIGH = released in default
-	button_curr_state = !digitalRead(_button_pin);
+	_button_curr_state = !digitalRead(_button_pin);
 	// checks if button state changes
-	if (button_last_state == required_last_state && button_curr_state == required_curr_state)
+	if (_button_last_state == required_last_state && _button_curr_state == required_curr_state)
 	{
 		value = true;
 	}
-	button_last_state = button_curr_state;
+	_button_last_state = _button_curr_state;
 
 	return value;
 }
