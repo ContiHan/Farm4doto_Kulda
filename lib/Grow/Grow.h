@@ -17,6 +17,15 @@ class Crop
     	Crop(byte pump_pin, byte sensor_pin, int sensor_air, int sensor_water, byte moisture_limit, int watering_time, int watering_hour);
 
 		// public instance variables
+		byte soil_mosture_percent;
+    	byte pump_relay_pin;
+		byte moisture_meter_pin;
+    	int moisture_meter_air;
+    	int moisture_meter_water;
+    	byte moisture_limit;
+    	int watering_time;
+		byte watering_hour;
+		bool watering_days[7];
 
     	// public instance methods
     	void init();
@@ -37,15 +46,6 @@ class Crop
 
 	private:
     	// private instance variables
-    	byte _soil_mosture_percent;
-    	byte _pump_relay_pin;
-    	byte _moisture_meter_pin;
-    	int _moisture_meter_air;
-    	int _moisture_meter_water;
-    	byte _moisture_limit;
-    	int _watering_time;
-		byte _watering_hour;
-		bool _watering_days[7];
 		RTC_DS1307 _rtc;
 		DateTime _last_check, _curr_check;
 

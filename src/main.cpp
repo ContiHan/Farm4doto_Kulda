@@ -1,4 +1,5 @@
 // TODO
+// ====================================================================================================
 // přidat dny u plodin a kontrolu i podle dne
 // přejmenovat všechny metody tak, aby se v kódu četly jako věta
 // RTC se přesune i do GROW knihovny, zkontrolovat, jestli je potřeba znovu initovat modul

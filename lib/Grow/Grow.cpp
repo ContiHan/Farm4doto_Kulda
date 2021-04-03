@@ -24,18 +24,18 @@ Crop::Crop(byte pump_relay_pin,
 		   int watering_time,
 		   int watering_hour)
 {
-	_soil_mosture_percent = 255;
-	_pump_relay_pin = pump_relay_pin;
-	_moisture_meter_pin = moisture_meter_pin;
-	_moisture_meter_air = moisture_meter_air;
-	_moisture_meter_water = moisture_meter_water;
-	_moisture_limit = moisture_limit;
-	_watering_time = watering_time;
-	_watering_hour = watering_hour;
+	this->soil_mosture_percent = 255;
+	this->pump_relay_pin = pump_relay_pin;
+	this->moisture_meter_pin = moisture_meter_pin;
+	this->moisture_meter_air = moisture_meter_air;
+	this->moisture_meter_water = moisture_meter_water;
+	this->moisture_limit = moisture_limit;
+	this->watering_time = watering_time;
+	this->watering_hour = watering_hour;
 
-	for (byte i = 0; i < sizeof(_watering_days); i++)
+	for (byte i = 0; i < sizeof(this->watering_days); i++)
 	{
-		_watering_days[i] = true;
+		this->watering_days[i] = true;
 	}
 }
 
@@ -49,22 +49,22 @@ void Crop::init()
 // initializes instance pump relay pin
 void Crop::_pump_relay_init()
 {
-	pinMode(_pump_relay_pin, OUTPUT);
+	pinMode(pump_relay_pin, OUTPUT);
 
 	// needs to be HIGH = Relay is NO (normally open)
-	digitalWrite(_pump_relay_pin, HIGH);
+	digitalWrite(pump_relay_pin, HIGH);
 }
 
 // sets watering days in week
 void Crop::set_watering_days(bool mon, bool tue, bool wed, bool thu, bool fri, bool sat, bool sun)
 {
-	_watering_days[0] = sun;
-	_watering_days[1] = mon;
-	_watering_days[2] = tue;
-	_watering_days[3] = wed;
-	_watering_days[4] = thu;
-	_watering_days[5] = fri;
-	_watering_days[6] = sat;
+	watering_days[0] = sun;
+	watering_days[1] = mon;
+	watering_days[2] = tue;
+	watering_days[3] = wed;
+	watering_days[4] = thu;
+	watering_days[5] = fri;
+	watering_days[6] = sat;
 }
 
 // gets sensor value
@@ -77,7 +77,7 @@ int Crop::get_moisture_meter_value()
 	// delay for corretly turn sensor on
 	delay(100);
 	// saves the value, because of return action and that the voltage needs to be turn first off
-	value = analogRead(_moisture_meter_pin);
+	value = analogRead(moisture_meter_pin);
 	// turn soil meters voltage off
 	digitalWrite(_vcc_moisture_meters_pin, LOW);
 	// returns sensor value
@@ -88,29 +88,29 @@ int Crop::get_moisture_meter_value()
 byte Crop::get_moisture_meter_percent_value()
 {
 	// recalculating value from sensor to percent scale
-	return map(get_moisture_meter_value(), _moisture_meter_air, _moisture_meter_water, 0, 100);
+	return map(get_moisture_meter_value(), moisture_meter_air, moisture_meter_water, 0, 100);
 }
 
 
 // watering method, just NC pump relay for defined time and than NO pump relay
 void Crop::watering()
 {
-	digitalWrite(_pump_relay_pin, LOW);
-	delay(_watering_time);
-	digitalWrite(_pump_relay_pin, HIGH);
+	digitalWrite(pump_relay_pin, LOW);
+	delay(watering_time);
+	digitalWrite(pump_relay_pin, HIGH);
 }
 
 // returns watering hour
 byte Crop::get_watering_hour()
 {
-	return _watering_hour;
+	return watering_hour;
 }
 
 // true if today is watering day
 bool Crop::is_in_watering_day()
 {
 	_curr_check = _rtc.now();	
-	return _watering_days[_curr_check.dayOfTheWeek()];
+	return watering_days[_curr_check.dayOfTheWeek()];
 }
 
 // true if current hour is watering hour
@@ -118,7 +118,7 @@ bool Crop::is_in_watering_hour()
 {
 	bool value = false;
 	_curr_check = _rtc.now();
-	if (_curr_check.hour() == _watering_hour)
+	if (_curr_check.hour() == watering_hour)
 	{
 		value = true;
 	}
@@ -155,7 +155,7 @@ bool Crop::is_in_watering_minute()
 bool Crop::moisture_level_is_low()
 {
 	bool value = false;
-	if (get_moisture_meter_percent_value() < _moisture_limit)
+	if (get_moisture_meter_percent_value() < moisture_limit)
 	{
 		value = true;
 	}
