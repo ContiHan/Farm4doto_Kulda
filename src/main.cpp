@@ -4,6 +4,8 @@
 // RTC se přesune i do GROW knihovny, zkontrolovat, jestli je potřeba znovu initovat modul
 // Zlepšit metody u Crop třídních metod, jestli nebude lepší dát to do jedné s více vstupními parametry
 // Zkontrolovat, co musí být a co musí a nemusí být v private sekci
+// Přepsat všechno podle konvencí jazyka C
+// Přidat gettry a settry
 
 
 #include <Arduino.h>
