@@ -14,23 +14,23 @@
 #include "HCSR04.h"
 
 // define of analog pins
-#define soil_moisture_meter_01 A0
-#define soil_moisture_meter_02 A1
+#define SOIL_MOISTURE_METER_01 A0
+#define SOIL_MOISTURE_METER_02 A1
 
 // define of digital pins
-#define VCC_soil_mosture_meters 13
-#define pump_relay_01 7
-#define pump_relay_02 8
-#define US_sensor_TRIG 9
-#define US_sensor_ECHO 10
-#define button_BACK 2
-#define button_NEXT 3
-#define button_OK 4
+#define VCC_SOIL_MOISTURE_METERS 13
+#define PUMP_RELAY_01 7
+#define PUMP_RELAY_02 8
+#define US_SENSOR_TRIG 9
+#define US_SENSOR_ECHO 10
+#define BUTTON_BACK 2
+#define BUTTON_NEXT 3
+#define BUTTON_OK 4
 
 // define of other things
-#define water_level_low 75
-#define water_level_high 5
-#define elapsed_time 5
+#define WATER_LEVEL_LOW 75
+#define WATER_LEVEL_HIGH 5
+#define ELAPSED_TIME 5
 
 // ARDUINO UNO PINOUT
 // ------------------------
@@ -59,40 +59,40 @@
 // 13 LED VCC vlhkoměry
 
 // declaration of local methods
-void water_at_right_time(Crop crop);
+void WaterAtRightTime(Crop crop);
 void cultivate();
-void print_time();
-void print_date();
-byte get_water_level_percent();
-void print_with_delay(unsigned long);
+void printTime();
+void printDate();
+byte getWaterLevelPercent();
+void printWithDelay(unsigned long);
 
 // variables for crops
-Crop tomatoes(pump_relay_01, soil_moisture_meter_01, 600, 240, 70, 3000, 8);
-Crop cucumbers(pump_relay_02, soil_moisture_meter_02, 600, 240, 60, 6000, 8);
+Crop tomatoes(PUMP_RELAY_01, SOIL_MOISTURE_METER_01, 600, 240, 70, 3000, 8);
+Crop cucumbers(PUMP_RELAY_02, SOIL_MOISTURE_METER_02, 600, 240, 60, 6000, 8);
 
 // variables for US sensor
-HCSR04 US_sensor(US_sensor_TRIG, US_sensor_ECHO);
+HCSR04 usSensor(US_SENSOR_TRIG, US_SENSOR_ECHO);
 
 // variables for RTC
 RTC_DS1307 rtc;
 
 // variables for time
-DateTime date_time;
-unsigned long delay_last_check;
+DateTime dateTime;
+unsigned long delayLastCheck;
 
 // variables for buttons
-Button back(button_BACK);
-Button next(button_NEXT);
-Button ok(button_OK);
+Button back(BUTTON_BACK);
+Button next(BUTTON_NEXT);
+Button ok(BUTTON_OK);
 
 // days and months arrays
-char day_list[7][8] = {"nedele", "pondeli", "utery", "streda", "ctvrtek", "patek", "sobota"};
-char month_list[12][4] = {"led", "uno", "bre", "dub", "kve", "cer", "cec", "srp", "zar", "rij", "lis", "pro"};
+char dayList[7][8] = {"nedele", "pondeli", "utery", "streda", "ctvrtek", "patek", "sobota"};
+char monthList[12][4] = {"led", "uno", "bre", "dub", "kve", "cer", "cec", "srp", "zar", "rij", "lis", "pro"};
 
 void setup()
 {
 	// init of delay variable for last check time
-	delay_last_check = millis();
+	delayLastCheck = millis();
 
 	// init of serial line (baud 9600)
 	Serial.begin(9600);
@@ -116,8 +116,8 @@ void setup()
  	// rtc.adjust(DateTime(2021, 1, 16, 12, 51, 00));
 
 	// init of vcc sensors pin and crops 
-	Crop::set_vcc_soil_moisture_meters_pin(VCC_soil_mosture_meters);
-	Crop::set_elapsed_time_check(elapsed_time);
+	Crop::set_vcc_soil_moisture_meters_pin(VCC_SOIL_MOISTURE_METERS);
+	Crop::set_elapsed_time_check(ELAPSED_TIME);
 	tomatoes.init();
 	cucumbers.init();
 
@@ -127,11 +127,11 @@ void setup()
 	ok.init();
 
 	// init od US sensor
-	US_sensor.begin();
+	usSensor.begin();
 }
 
 // checks if it is ideal hour for watering specific crop
-void water_at_right_time(Crop crop)
+void WaterAtRightTime(Crop crop)
 {
 	if (crop.is_in_watering_day() && crop.is_in_watering_hour() && crop.is_in_watering_minute() && crop.moisture_level_is_low())
 	{
@@ -142,45 +142,45 @@ void water_at_right_time(Crop crop)
 // grow section executes here
 void cultivate()
 {
-	water_at_right_time(tomatoes);
-	water_at_right_time(cucumbers);
+	WaterAtRightTime(tomatoes);
+	WaterAtRightTime(cucumbers);
 }
 
 // print current time
-void print_time()
+void printTime()
 {
 	// set and print current time
-	date_time = rtc.now();
-	Serial.print((String)date_time.hour() + ":" + date_time.minute() + ":" + date_time.second());
+	dateTime = rtc.now();
+	Serial.print((String)dateTime.hour() + ":" + dateTime.minute() + ":" + dateTime.second());
 }
 
 // print current date
-void print_date()
+void printDate()
 {
 	// set and print current date
-	date_time = rtc.now();
-	Serial.print((String)day_list[date_time.dayOfTheWeek()] + " " + date_time.day() + "." + month_list[date_time.month()-1] + " " + date_time.year());
+	dateTime = rtc.now();
+	Serial.print((String)dayList[dateTime.dayOfTheWeek()] + " " + dateTime.day() + "." + monthList[dateTime.month()-1] + " " + dateTime.year());
 }
 
 // returns percent value of water level
-byte get_water_level_percent()
+byte getWaterLevelPercent()
 {
-	return map(US_sensor.getDistance(), water_level_low, water_level_high, 0, 100);
+	return map(usSensor.getDistance(), WATER_LEVEL_LOW, WATER_LEVEL_HIGH, 0, 100);
 };
 
 // replaces classic delay, all Serial print calls put here, default delay is set to 1000ms
-void print_with_delay(unsigned long delay_check = 1000)
+void printWithDelay(unsigned long delay_check = 1000)
 {
-	if (millis() - delay_last_check >= delay_check)
+	if (millis() - delayLastCheck >= delay_check)
 	{
 		Serial.println("==============================");
 		Serial.println((String)"Vlhkost rajčat: " + tomatoes.get_moisture_meter_percent_value() + "%");
 		Serial.println((String)"Vlhkost okurek: " + cucumbers.get_moisture_meter_percent_value() + "%");
 		Serial.println("==============================");
-		Serial.println((String)"Zásoba vody je  : " + get_water_level_percent() + "%");
+		Serial.println((String)"Zásoba vody je  : " + getWaterLevelPercent() + "%");
 		Serial.println("==============================\n");
 
-		delay_last_check = millis();
+		delayLastCheck = millis();
 	}
 }
 
@@ -201,6 +201,6 @@ void loop()
 		Serial.println("Zmáčnuté tlačítko OK");
 	}
 
-	print_with_delay(5000);
+	printWithDelay(5000);
 	cultivate();
 }
