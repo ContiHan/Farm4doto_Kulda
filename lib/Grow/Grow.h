@@ -14,73 +14,73 @@ class Crop
 {
 	public:
 		// constructor that needs 6 specific values
-    	Crop(byte pump_pin, byte sensor_pin, int sensor_air, int sensor_water, byte moisture_limit, int watering_time, int watering_hour);
+    	Crop(byte pumpPin, byte sensorPin, int sensorAir, int sensorWater, byte moistureLimit, int wateringTime, int wateringHour);
 
 		// public instance variables
 
     	// public instance methods
-    	void init();
-		void set_watering_days(bool mon, bool tue, bool wed, bool thu, bool fri, bool sat, bool sun);
-		int get_moisture_meter_value();
-    	byte get_moisture_meter_percent_value();
-    	void watering();
-		byte get_watering_hour();
-		bool is_in_watering_day();
-		bool is_in_watering_hour();
-		bool is_in_watering_minute();
-		bool moisture_level_is_low();
+    	void Init();
+		void SetWateringDays(bool mon, bool tue, bool wed, bool thu, bool fri, bool sat, bool sun);
+		int  GetMoistureMeterValue();
+    	byte GetMoistureMeterPercentValue();
+    	void Watering();
+		byte GetWateringHour();
+		bool IsInWateringDay();
+		bool IsInWateringHour();
+		bool IsInWateringMinute();
+		bool MoistureLevelIsLow();
 
     	// public class methods
-		static void set_elapsed_time_check(byte minute);
-    	static void set_vcc_soil_moisture_meters_pin(byte vcc_pin);
-    	static byte get_vcc_soil_moisture_meters_pin();
+		static void SetElapsedTimeCheck(byte minute);
+    	static void SetVccSoilMoistureMetersPin(byte vccPin);
+    	static byte GetVccSoilMoistureMetersPin();
 
 	private:
     	// private instance variables
-    	byte _soil_mosture_percent;
-    	byte _pump_relay_pin;
-    	byte _moisture_meter_pin;
-    	int _moisture_meter_air;
-    	int _moisture_meter_water;
-    	byte _moisture_limit;
-    	int _watering_time;
-		byte _watering_hour;
-		bool _watering_days[7];
-		RTC_DS1307 _rtc;
-		DateTime _last_check, _curr_check;
+    	byte soilMoisturePercent;
+    	byte pumpRelayPin;
+    	byte moistureMeterPin;
+    	int  moistureMeterAir;
+    	int  moistureMeterWater;
+    	byte moistureLimit;
+    	int  wateringTime;
+		byte wateringHour;
+		bool wateringDays[7];
+		RTC_DS1307 rtc;
+		DateTime lastCheck, currCheck;
 
     	// private class variables
-    	static byte _vcc_moisture_meters_pin;
-		static byte _elapsed_time;
+    	static byte vccMoistureMetersPin;
+		static byte elapsedTime;
 
     	// private instance methods
-    	void _pump_relay_init();
+    	void PumpRelayInit();
 
     	// private class methods
-    	static void _moisture_meters_init();
+    	static void MoistureMetersInit();
 };
 
 class Button
 {
 	public:
 		// constructor, that needs pin as argument
-		Button(byte button_pin);
+		Button(byte buttonPin);
 
 		// public instance variable
 
 		// public instance methods
-		void init();
-		bool button_is_pressed();
-		bool button_is_released();
+		void Init();
+		bool ButtonIsPressed();
+		bool ButtonIsReleased();
 
 	private:
 		// private instance variables
-		byte _button_pin;
-		bool _button_last_state;
-		bool _button_curr_state;
+		byte buttonPin;
+		bool buttonLastState;
+		bool buttonCurrState;
 
 		// private instance mathods
-		bool _get_button_change(bool required_last_state, bool requried_curr_state);
+		bool GetButtonChange(bool requiredLastState, bool requiredCurrState);
 };
 
 #endif /* Grow_h */

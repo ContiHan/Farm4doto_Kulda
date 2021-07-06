@@ -116,15 +116,15 @@ void setup()
  	// rtc.adjust(DateTime(2021, 1, 16, 12, 51, 00));
 
 	// init of vcc sensors pin and crops 
-	Crop::set_vcc_soil_moisture_meters_pin(VCC_SOIL_MOISTURE_METERS);
-	Crop::set_elapsed_time_check(ELAPSED_TIME);
-	tomatoes.init();
-	cucumbers.init();
+	Crop::SetVccSoilMoistureMetersPin(VCC_SOIL_MOISTURE_METERS);
+	Crop::SetElapsedTimeCheck(ELAPSED_TIME);
+	tomatoes.Init();
+	cucumbers.Init();
 
 	// init of buttons
-	back.init();
-	next.init();
-	ok.init();
+	back.Init();
+	next.Init();
+	ok.Init();
 
 	// init od US sensor
 	usSensor.begin();
@@ -133,9 +133,9 @@ void setup()
 // checks if it is ideal hour for watering specific crop
 void WaterAtRightTime(Crop crop)
 {
-	if (crop.is_in_watering_day() && crop.is_in_watering_hour() && crop.is_in_watering_minute() && crop.moisture_level_is_low())
+	if (crop.IsInWateringDay() && crop.IsInWateringHour() && crop.IsInWateringMinute() && crop.MoistureLevelIsLow())
 	{
-		crop.watering();
+		crop.Watering();
 	}
 }
 
@@ -174,8 +174,8 @@ void printWithDelay(unsigned long delay_check = 1000)
 	if (millis() - delayLastCheck >= delay_check)
 	{
 		Serial.println("==============================");
-		Serial.println((String)"Vlhkost rajčat: " + tomatoes.get_moisture_meter_percent_value() + "%");
-		Serial.println((String)"Vlhkost okurek: " + cucumbers.get_moisture_meter_percent_value() + "%");
+		Serial.println((String)"Vlhkost rajčat: " + tomatoes.GetMoistureMeterPercentValue() + "%");
+		Serial.println((String)"Vlhkost okurek: " + cucumbers.GetMoistureMeterPercentValue() + "%");
 		Serial.println("==============================");
 		Serial.println((String)"Zásoba vody je  : " + getWaterLevelPercent() + "%");
 		Serial.println("==============================\n");
@@ -186,17 +186,17 @@ void printWithDelay(unsigned long delay_check = 1000)
 
 void loop()
 {
-	if (back.button_is_pressed())
+	if (back.ButtonIsPressed())
 	{
 		Serial.println("Zmáčnuté tlačítko BACK");
 	}
 
-	if (next.button_is_pressed())
+	if (next.ButtonIsPressed())
 	{
 		Serial.println("Zmáčnuté tlačítko NEXT");
 	}
 
-	if (ok.button_is_pressed())
+	if (ok.ButtonIsPressed())
 	{
 		Serial.println("Zmáčnuté tlačítko OK");
 	}
