@@ -67,8 +67,11 @@ byte getWaterLevelPercent();
 void printWithDelay(unsigned long);
 
 // variables for crops
-Crop tomatoes(PUMP_RELAY_01, SOIL_MOISTURE_METER_01, 600, 240, 70, 3000, 8);
+Crop tomatoes (PUMP_RELAY_01, SOIL_MOISTURE_METER_01, 600, 240, 70, 3000, 8);
 Crop cucumbers(PUMP_RELAY_02, SOIL_MOISTURE_METER_02, 600, 240, 60, 6000, 8);
+
+// array of all crops
+Crop crops[2] = { tomatoes, cucumbers };
 
 // variables for US sensor
 HCSR04 usSensor(US_SENSOR_TRIG, US_SENSOR_ECHO);
@@ -201,6 +204,11 @@ void loop()
 		Serial.println("Zmáčnuté tlačítko OK");
 	}
 
+	/*for (byte i = 0; i < sizeof(crops); i++)
+	{
+		crops[i].Watering();
+	}*/
+	
 	printWithDelay(5000);
 	cultivate();
 }
