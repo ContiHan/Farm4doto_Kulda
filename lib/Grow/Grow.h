@@ -35,6 +35,8 @@ class Crop
     	static void SetVccSoilMoistureMetersPin(byte vccPin);
     	static byte GetVccSoilMoistureMetersPin();
 
+		//static void InstancesWatering();
+
 	private:
     	// private instance variables
     	byte soilMoisturePercent;
@@ -52,6 +54,9 @@ class Crop
     	// private class variables
     	static byte vccMoistureMetersPin;
 		static byte elapsedTime;
+
+		//static size_t instanceCount;
+    	//static Crop* instances[10];
 
     	// private instance methods
     	void PumpRelayInit();

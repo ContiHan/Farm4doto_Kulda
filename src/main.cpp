@@ -60,18 +60,15 @@
 
 // declaration of local methods
 void WaterAtRightTime(Crop crop);
-void cultivate();
-void printTime();
-void printDate();
-byte getWaterLevelPercent();
-void printWithDelay(unsigned long);
+void Cultivate();
+void PrintTime();
+void PrintDate();
+byte GetWaterLevelPercent();
+void PrintWithDelay(unsigned long);
 
 // variables for crops
 Crop tomatoes (PUMP_RELAY_01, SOIL_MOISTURE_METER_01, 600, 240, 70, 3000, 8);
 Crop cucumbers(PUMP_RELAY_02, SOIL_MOISTURE_METER_02, 600, 240, 60, 6000, 8);
-
-// array of all crops
-Crop crops[2] = { tomatoes, cucumbers };
 
 // variables for US sensor
 HCSR04 usSensor(US_SENSOR_TRIG, US_SENSOR_ECHO);
@@ -143,14 +140,14 @@ void WaterAtRightTime(Crop crop)
 }
 
 // grow section executes here
-void cultivate()
+void Cultivate()
 {
 	WaterAtRightTime(tomatoes);
 	WaterAtRightTime(cucumbers);
 }
 
 // print current time
-void printTime()
+void PrintTime()
 {
 	// set and print current time
 	dateTime = rtc.now();
@@ -158,7 +155,7 @@ void printTime()
 }
 
 // print current date
-void printDate()
+void PrintDate()
 {
 	// set and print current date
 	dateTime = rtc.now();
@@ -166,21 +163,21 @@ void printDate()
 }
 
 // returns percent value of water level
-byte getWaterLevelPercent()
+byte GetWaterLevelPercent()
 {
 	return map(usSensor.getDistance(), WATER_LEVEL_LOW, WATER_LEVEL_HIGH, 0, 100);
 };
 
 // replaces classic delay, all Serial print calls put here, default delay is set to 1000ms
-void printWithDelay(unsigned long delay_check = 1000)
+void PrintWithDelay(unsigned long delayCheck = 1000)
 {
-	if (millis() - delayLastCheck >= delay_check)
+	if (millis() - delayLastCheck >= delayCheck)
 	{
 		Serial.println("==============================");
 		Serial.println((String)"Vlhkost rajčat: " + tomatoes.GetMoistureMeterPercentValue() + "%");
 		Serial.println((String)"Vlhkost okurek: " + cucumbers.GetMoistureMeterPercentValue() + "%");
 		Serial.println("==============================");
-		Serial.println((String)"Zásoba vody je  : " + getWaterLevelPercent() + "%");
+		Serial.println((String)"Zásoba vody je  : " + GetWaterLevelPercent() + "%");
 		Serial.println("==============================\n");
 
 		delayLastCheck = millis();
@@ -203,12 +200,8 @@ void loop()
 	{
 		Serial.println("Zmáčnuté tlačítko OK");
 	}
-
-	/*for (byte i = 0; i < sizeof(crops); i++)
-	{
-		crops[i].Watering();
-	}*/
 	
-	printWithDelay(5000);
-	cultivate();
+	PrintWithDelay(5000);
+	//Crop::InstancesWatering();
+	Cultivate();
 }
