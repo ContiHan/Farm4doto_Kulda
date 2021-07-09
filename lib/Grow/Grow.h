@@ -34,8 +34,7 @@ class Crop
 		static void SetElapsedTimeCheck(byte minute);
     	static void SetVccSoilMoistureMetersPin(byte vccPin);
     	static byte GetVccSoilMoistureMetersPin();
-
-		//static void InstancesWatering();
+		static void InstancesWatering();
 
 	private:
     	// private instance variables
@@ -54,9 +53,8 @@ class Crop
     	// private class variables
     	static byte vccMoistureMetersPin;
 		static byte elapsedTime;
-
-		//static size_t instanceCount;
-    	//static Crop* instances[10];
+		static size_t instanceCount;
+    	static Crop* instances[10];
 
     	// private instance methods
     	void PumpRelayInit();
@@ -84,7 +82,7 @@ class Button
 		bool buttonLastState;
 		bool buttonCurrState;
 
-		// private instance mathods
+		// private instance methods
 		bool GetButtonChange(bool requiredLastState, bool requiredCurrState);
 };
 

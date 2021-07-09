@@ -32,7 +32,7 @@ Crop::Crop(byte pumpRelayPin, byte moistureMeterPin, int moistureMeterAir, int m
 		wateringDays[i] = true;
 	}
 
-	//instances[instanceCount++] = this;
+	instances[instanceCount++] = this;
 }
 
 // initializes crop instance
@@ -177,20 +177,20 @@ byte Crop::GetVccSoilMoistureMetersPin()
 	return vccMoistureMetersPin;
 }
 
-/*void Crop::InstancesWatering()
+void Crop::InstancesWatering()
 {
 	for (size_t i = 0; i < instanceCount; i++)
 	{
 		instances[i]->Watering();
 	}
 	
-}*/
+}
 
 // definition of class variables
 byte Crop::vccMoistureMetersPin = 255;
 byte Crop::elapsedTime = 255;
-//size_t Crop::instanceCount = 0;
-//Crop* Crop::instances[] = {0};
+size_t Crop::instanceCount = 0;
+Crop* Crop::instances[] = {0};
 
 
 // vcc sensor pin initialization
