@@ -224,14 +224,14 @@ void Button::Init()
 bool Button::ButtonIsPressed()
 {
 	// true, if button state change from LOW to HIGH
-	return GetButtonChange(LOW, HIGH);
+	return GetButtonChange(false, true);
 }
 
 // returns true, if button is released
 bool Button::ButtonIsReleased()
 {
 	// true if button state change from HIGH to LOW
-	return GetButtonChange(HIGH, LOW);
+	return GetButtonChange(true, false);
 }
 
 // gets change of button state

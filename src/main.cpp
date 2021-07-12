@@ -189,21 +189,25 @@ void loop()
 	if (back.ButtonIsPressed())
 	{
 		Serial.println("Zmáčnuté tlačítko BACK");
+		Crop::InstancesWatering();
 	}
 
 	if (next.ButtonIsPressed())
 	{
 		Serial.println("Zmáčnuté tlačítko NEXT");
+		PrintDate();
+		Serial.println();
+		PrintTime();
+		Serial.println();
 	}
 
 	if (ok.ButtonIsPressed())
 	{
 		Serial.println("Zmáčnuté tlačítko OK");
+		PrintWithDelay(10);
 	}
 	
-	PrintWithDelay(5000);
-
-	Crop::InstancesWatering();
+	//PrintWithDelay(5000);
 	
-	Cultivate();
+	//Cultivate();
 }
