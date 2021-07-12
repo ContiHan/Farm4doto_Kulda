@@ -204,7 +204,7 @@ void loop()
 	if (ok.ButtonIsPressed())
 	{
 		Serial.println("Zmáčnuté tlačítko OK");
-		PrintWithDelay(10);
+		PrintWithDelay(25);
 	}
 	
 	//PrintWithDelay(5000);
