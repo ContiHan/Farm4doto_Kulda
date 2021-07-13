@@ -27,9 +27,11 @@
 #define BUTTON_NEXT 3
 #define BUTTON_OK 4
 
-// define of other things
+// define of US sensor water levels
 #define WATER_LEVEL_LOW 75
 #define WATER_LEVEL_HIGH 5
+
+// define of watering check period in minutes
 #define ELAPSED_TIME 5
 
 // ARDUINO UNO PINOUT
@@ -89,6 +91,14 @@ Button ok(BUTTON_OK);
 char dayList[7][8] = {"nedele", "pondeli", "utery", "streda", "ctvrtek", "patek", "sobota"};
 char monthList[12][4] = {"led", "uno", "bre", "dub", "kve", "cer", "cec", "srp", "zar", "rij", "lis", "pro"};
 
+/*
+*	========================================
+*	========================================
+*	SETUP SECTION
+*	========================================
+*	========================================
+*/
+
 void setup()
 {
 	// init of delay variable for last check time
@@ -98,7 +108,7 @@ void setup()
 	Serial.begin(9600);
 	while(! Serial);
 
-	// check of connected RTC modul
+	// check of connected RTC module
 	if (! rtc.begin())
 	{
 		Serial.println("Hodiny nejsou pripojeny!");
@@ -115,9 +125,13 @@ void setup()
   	// EXAMPLE: 16.1.2021 12:51:00
  	// rtc.adjust(DateTime(2021, 1, 16, 12, 51, 00));
 
-	// init of vcc sensors pin and crops 
+	// init of vcc sensors pin
 	Crop::SetVccSoilMoistureMetersPin(VCC_SOIL_MOISTURE_METERS);
+
+	// init of variable for watering check period
 	Crop::SetElapsedTimeCheck(ELAPSED_TIME);
+
+	// init of crops
 	tomatoes.Init();
 	cucumbers.Init();
 
@@ -130,7 +144,7 @@ void setup()
 	usSensor.begin();
 }
 
-// checks if it is ideal hour for watering specific crop
+// check if its ideal hour for watering of specific crop
 void WaterAtRightTime(Crop crop)
 {
 	if (crop.IsInWateringDay() && crop.IsInWateringHour() && crop.IsInWateringMinute() && crop.MoistureLevelIsLow())
@@ -162,13 +176,13 @@ void PrintDate()
 	Serial.print((String)dayList[dateTime.dayOfTheWeek()] + " " + dateTime.day() + "." + monthList[dateTime.month()-1] + " " + dateTime.year());
 }
 
-// returns percent value of water level
+// return percent value of water level
 byte GetWaterLevelPercent()
 {
 	return map(usSensor.getDistance(), WATER_LEVEL_LOW, WATER_LEVEL_HIGH, 0, 100);
 };
 
-// replaces classic delay, all Serial print calls put here, default delay is set to 1000ms
+// replace classic delay, all Serial print calls put here, default delay is set to 1000ms
 void PrintWithDelay(unsigned long delayCheck = 1000)
 {
 	if (millis() - delayLastCheck >= delayCheck)
@@ -183,6 +197,14 @@ void PrintWithDelay(unsigned long delayCheck = 1000)
 		delayLastCheck = millis();
 	}
 }
+
+/*
+*	========================================
+*	========================================
+*	MAIN LOOP SECTION
+*	========================================
+*	========================================
+*/
 
 void loop()
 {
