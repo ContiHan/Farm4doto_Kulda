@@ -13,7 +13,7 @@
 class Crop
 {
 	public:
-		// constructor that needs 6 specific values
+		// constructor, need 6 specific arguments
     	Crop(byte pumpPin, byte sensorPin, int sensorAir, int sensorWater, byte moistureLimit, int wateringTime, int wateringHour);
 
 		// public instance variables
@@ -29,6 +29,8 @@ class Crop
 		bool IsInWateringHour();
 		bool IsInWateringMinute();
 		bool MoistureLevelIsLow();
+
+		// public class variables
 
     	// public class methods
 		static void SetElapsedTimeCheck(byte minute);
@@ -50,14 +52,14 @@ class Crop
 		RTC_DS1307 rtc;
 		DateTime lastCheck, currCheck;
 
+		// private instance methods
+    	void PumpRelayInit();
+
     	// private class variables
     	static byte vccMoistureMetersPin;
 		static byte elapsedTime;
 		static size_t instanceCount;
     	static Crop* instances[10];
-
-    	// private instance methods
-    	void PumpRelayInit();
 
     	// private class methods
     	static void MoistureMetersInit();
@@ -66,15 +68,19 @@ class Crop
 class Button
 {
 	public:
-		// constructor, that needs pin as argument
+		// constructor, need pin as argument
 		Button(byte buttonPin);
 
-		// public instance variable
+		// public instance variables
 
 		// public instance methods
 		void Init();
 		bool ButtonIsPressed();
 		bool ButtonIsReleased();
+
+		// public class variables
+
+		// public class methods
 
 	private:
 		// private instance variables
@@ -84,6 +90,10 @@ class Button
 
 		// private instance methods
 		bool GetButtonChange(bool requiredLastState, bool requiredCurrState);
+
+		// private class variables
+
+		// private class methods
 };
 
 #endif /* Grow_h */

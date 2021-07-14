@@ -98,7 +98,6 @@ char monthList[12][4] = {"led", "uno", "bre", "dub", "kve", "cer", "cec", "srp",
 *	========================================
 *	========================================
 */
-
 void setup()
 {
 	// init of delay variable for last check time
@@ -205,7 +204,6 @@ void PrintWithDelay(unsigned long delayCheck = 1000)
 *	========================================
 *	========================================
 */
-
 void loop()
 {
 	if (back.ButtonIsPressed())

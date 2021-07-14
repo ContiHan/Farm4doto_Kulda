@@ -10,9 +10,11 @@
 
 
 /*
-*
+*	========================================
+*	========================================
 *	CROP SECTION STARTS HERE
-*
+*	========================================
+*	========================================
 */
 
 // constructor definition
@@ -32,26 +34,27 @@ Crop::Crop(byte pumpRelayPin, byte moistureMeterPin, int moistureMeterAir, int m
 		wateringDays[i] = true;
 	}
 
+	// save reference value to currently created instance of object to an array
 	instances[instanceCount++] = this;
 }
 
-// initializes crop instance
+// initialize crop instance
 void Crop::Init()
 {
 	PumpRelayInit();
 	lastCheck = currCheck = rtc.now();
 }
 
-// initializes instance pump relay pin
+// initialize instance pump relay pin
 void Crop::PumpRelayInit()
 {
 	pinMode(pumpRelayPin, OUTPUT);
 
-	// needs to be HIGH = Relay is NO (normally open)
+	// need to be HIGH = Relay is NO (normally open)
 	digitalWrite(pumpRelayPin, HIGH);
 }
 
-// sets watering days in week
+// set watering days in week
 void Crop::SetWateringDays(bool mon, bool tue, bool wed, bool thu, bool fri, bool sat, bool sun)
 {
 	wateringDays[0] = sun;
@@ -63,7 +66,7 @@ void Crop::SetWateringDays(bool mon, bool tue, bool wed, bool thu, bool fri, boo
 	wateringDays[6] = sat;
 }
 
-// gets sensor value
+// get sensor value
 int Crop::GetMoistureMeterValue()
 {
 	// temp variable for sensor value
@@ -72,15 +75,15 @@ int Crop::GetMoistureMeterValue()
 	digitalWrite(vccMoistureMetersPin, HIGH);
 	// delay for corretly turn sensor on
 	delay(100);
-	// saves the value, because of return action and that the voltage needs to be turn first off
+	// save the value, because of return action and that the voltage needs to be turn first off
 	value = analogRead(moistureMeterPin);
 	// turn soil meters voltage off
 	digitalWrite(vccMoistureMetersPin, LOW);
-	// returns sensor value
+	// return sensor value
 	return value;
 }
 
-// gets sensor value in percent scale
+// get sensor value in percent scale
 byte Crop::GetMoistureMeterPercentValue()
 {
 	// recalculating value from sensor to percent scale
@@ -96,7 +99,7 @@ void Crop::Watering()
 	digitalWrite(pumpRelayPin, HIGH);
 }
 
-// returns watering hour
+// return watering hour
 byte Crop::GetWateringHour()
 {
 	return wateringHour;
@@ -128,7 +131,7 @@ bool Crop::IsInWateringMinute()
 	currCheck = rtc.now();
 	byte minute;
 
-	// saves current time minute to minute for compare and eventual icrease of value 60
+	// save current time minute to minute for compare and eventual icrease of value 60
 	minute = currCheck.minute();
 
 	// if current time hour is not equal with last check time hour, increase time_unit by 60 (minutes) to avoid overflow
@@ -158,7 +161,7 @@ bool Crop::MoistureLevelIsLow()
 	return value;
 }
 
-// sets elapsed time check value
+// set elapsed time check value
 void Crop::SetElapsedTimeCheck(byte minute)
 {
 	elapsedTime = minute;
@@ -177,6 +180,7 @@ byte Crop::GetVccSoilMoistureMetersPin()
 	return vccMoistureMetersPin;
 }
 
+// run watering across all created instances of crop
 void Crop::InstancesWatering()
 {
 	for (size_t i = 0; i < instanceCount; i++)
@@ -202,25 +206,27 @@ void Crop::MoistureMetersInit()
 
 
 /*
-*
+*	========================================
+*	========================================
 *	BUTTON SECTION STARTS HERE
-*
+*	========================================
+*	========================================
 */
 
-// constructor, takes pin in argument
+// constructor, take pin in argument
 Button::Button(byte buttonPin)
 {
 	this->buttonPin = buttonPin;
 	buttonLastState = LOW;
 }
 
-// initializes button instance
+// initialize button instance
 void Button::Init()
 {
 	pinMode(buttonPin, INPUT_PULLUP);
 }
 
-// returns true, if button is pressed
+// return true, if button is pressed
 bool Button::ButtonIsPressed()
 {
 	// true, if button state change from LOW to HIGH
@@ -234,13 +240,13 @@ bool Button::ButtonIsReleased()
 	return GetButtonChange(true, false);
 }
 
-// gets change of button state
+// get change of button state
 bool Button::GetButtonChange(bool requiredLastState, bool requiredCurrState)
 {
 	bool value = false;
-	// reads value from pin, that needs to be negate, because INPUT_PULLUP MODE returns LOW = pressed, HIGH = released in default
+	// read value from pin, that need to be negate, because INPUT_PULLUP MODE returns LOW = pressed, HIGH = released in default
 	buttonCurrState = !digitalRead(buttonPin);
-	// checks if button state changes
+	// check if button state changes
 	if (buttonLastState == requiredLastState && buttonCurrState == requiredCurrState)
 	{
 		value = true;
