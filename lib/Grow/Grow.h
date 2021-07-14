@@ -10,6 +10,8 @@
 #include "Arduino.h"
 #include "RTClib.h"
 
+byte const maxCropInstances = 10;
+
 class Crop
 {
 	public:
@@ -59,7 +61,7 @@ class Crop
     	static byte vccMoistureMetersPin;
 		static byte elapsedTime;
 		static size_t instanceCount;
-    	static Crop* instances[10];
+    	static Crop* instances[maxCropInstances];
 
     	// private class methods
     	static void MoistureMetersInit();

@@ -1,11 +1,13 @@
 // TODO
-// přidat dny u plodin a kontrolu i podle dne
-// přejmenovat všechny metody tak, aby se v kódu četly jako věta
+// Přidat dny u plodin a kontrolu i podle dne
+// Přejmenovat všechny metody tak, aby se v kódu četly jako věta
 // RTC se přesune i do GROW knihovny, zkontrolovat, jestli je potřeba znovu initovat modul
 // Zlepšit metody u Crop třídních metod, jestli nebude lepší dát to do jedné s více vstupními parametry
 // Zkontrolovat, co musí být a co musí a nemusí být v private sekci
 // Přidat gettry a settry
-// Předělat komentáře, slovesa bez "s" na konci
+// Hlídat inkrement na pole instancí
+// Definice pole instancí - velikost přes const
+// Enum na plodiny
 
 
 #include <Arduino.h>

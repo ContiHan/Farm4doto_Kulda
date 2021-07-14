@@ -35,7 +35,10 @@ Crop::Crop(byte pumpRelayPin, byte moistureMeterPin, int moistureMeterAir, int m
 	}
 
 	// save reference value to currently created instance of object to an array
-	instances[instanceCount++] = this;
+	if (instanceCount < maxCropInstances)
+	{
+			instances[instanceCount++] = this;
+	}
 }
 
 // initialize crop instance
