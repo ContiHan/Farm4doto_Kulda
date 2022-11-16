@@ -1,13 +1,17 @@
 // TODO
+// *******************************************
 // Přidat dny u plodin a kontrolu i podle dne
 // Přejmenovat všechny metody tak, aby se v kódu četly jako věta
-// RTC se přesune i do GROW knihovny, zkontrolovat, jestli je potřeba znovu initovat modul
+// RTC se přesune i do CROP třídy, zkontrolovat, jestli je potřeba znovu initovat modul
 // Zlepšit metody u Crop třídních metod, jestli nebude lepší dát to do jedné s více vstupními parametry
 // Zkontrolovat, co musí být a co musí a nemusí být v private sekci
-// Přidat gettry a settry
+// Přidat getry a setry
 // Hlídat inkrement na pole instancí
 // Definice pole instancí - velikost přes const
 // Enum na plodiny
+// Zvážit builder vzor na Crop třídu
+// Kontrola všech názvů proměnných, fieldů, metod, atd.
+// Předělat vše z Grow do dílčích tříd a použít jen *.h, zkusit pustit na reálném HW (arduino)
 
 #include "Arduino.h"
 #include "Crop.h"
