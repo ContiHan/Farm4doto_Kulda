@@ -9,8 +9,7 @@
 // Definice pole instancí - velikost přes const
 // Enum na plodiny
 
-
-#include <Arduino.h>
+#include "Arduino.h"
 #include "Grow.h"
 #include "RTClib.h"
 #include "HCSR04.h"
@@ -52,14 +51,14 @@
 //  2 --- Tlačítko BACK
 //  3 490 Tlačítko NEXT
 //  4 --- Tlačítko OK
-//  5 980 
-//  6 980 
+//  5 980
+//  6 980
 //  7 --- Relé čerpadlo 01
 //  8 --- Relé čerpadlo 02
 //  9 490 US sensor TRIG
 // 10 490 US sensor ECHO
-// 11 490 
-// 12 --- 
+// 11 490
+// 12 ---
 // 13 LED VCC vlhkoměry
 
 // declaration of local methods
@@ -71,7 +70,7 @@ byte GetWaterLevelPercent();
 void PrintWithDelay(unsigned long);
 
 // variables for crops
-Crop tomatoes (PUMP_RELAY_01, SOIL_MOISTURE_METER_01, 600, 240, 70, 3000, 8);
+Crop tomatoes(PUMP_RELAY_01, SOIL_MOISTURE_METER_01, 600, 240, 70, 3000, 8);
 Crop cucumbers(PUMP_RELAY_02, SOIL_MOISTURE_METER_02, 600, 240, 60, 6000, 8);
 
 // variables for US sensor
@@ -94,12 +93,12 @@ char dayList[7][8] = {"nedele", "pondeli", "utery", "streda", "ctvrtek", "patek"
 char monthList[12][4] = {"led", "uno", "bre", "dub", "kve", "cer", "cec", "srp", "zar", "rij", "lis", "pro"};
 
 /*
-*	========================================
-*	========================================
-*	SETUP SECTION
-*	========================================
-*	========================================
-*/
+ *	========================================
+ *	========================================
+ *	SETUP SECTION
+ *	========================================
+ *	========================================
+ */
 void setup()
 {
 	// init of delay variable for last check time
@@ -107,24 +106,26 @@ void setup()
 
 	// init of serial line (baud 9600)
 	Serial.begin(9600);
-	while(! Serial);
+	while (!Serial)
+		;
 
 	// check of connected RTC module
-	if (! rtc.begin())
+	if (!rtc.begin())
 	{
 		Serial.println("Hodiny nejsou pripojeny!");
-	    while (1);
+		while (1)
+			;
 	}
 	// check if RTC is running
-	if (! rtc.isrunning())
+	if (!rtc.isrunning())
 	{
-	    Serial.println("Hodiny nejsou spusteny! Spoustim nyni..");
+		Serial.println("Hodiny nejsou spusteny! Spoustim nyni..");
 	}
 
 	// for set up RTC date and time use this syntax below in order
-  	// YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
-  	// EXAMPLE: 16.1.2021 12:51:00
- 	// rtc.adjust(DateTime(2021, 1, 16, 12, 51, 00));
+	// YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+	// EXAMPLE: 16.1.2021 12:51:00
+	// rtc.adjust(DateTime(2021, 1, 16, 12, 51, 00));
 
 	// init of vcc sensors pin
 	Crop::SetVccSoilMoistureMetersPin(VCC_SOIL_MOISTURE_METERS);
@@ -174,7 +175,7 @@ void PrintDate()
 {
 	// set and print current date
 	dateTime = rtc.now();
-	Serial.print((String)dayList[dateTime.dayOfTheWeek()] + " " + dateTime.day() + "." + monthList[dateTime.month()-1] + " " + dateTime.year());
+	Serial.print((String)dayList[dateTime.dayOfTheWeek()] + " " + dateTime.day() + "." + monthList[dateTime.month() - 1] + " " + dateTime.year());
 }
 
 // return percent value of water level
@@ -189,10 +190,10 @@ void PrintWithDelay(unsigned long delayCheck = 1000)
 	if (millis() - delayLastCheck >= delayCheck)
 	{
 		Serial.println("==============================");
-		Serial.println((String)"Vlhkost rajčat: " + tomatoes.GetMoistureMeterPercentValue() + "%");
-		Serial.println((String)"Vlhkost okurek: " + cucumbers.GetMoistureMeterPercentValue() + "%");
+		Serial.println((String) "Vlhkost rajčat: " + tomatoes.GetMoistureMeterPercentValue() + "%");
+		Serial.println((String) "Vlhkost okurek: " + cucumbers.GetMoistureMeterPercentValue() + "%");
 		Serial.println("==============================");
-		Serial.println((String)"Zásoba vody je  : " + GetWaterLevelPercent() + "%");
+		Serial.println((String) "Zásoba vody je  : " + GetWaterLevelPercent() + "%");
 		Serial.println("==============================\n");
 
 		delayLastCheck = millis();
@@ -200,12 +201,12 @@ void PrintWithDelay(unsigned long delayCheck = 1000)
 }
 
 /*
-*	========================================
-*	========================================
-*	MAIN LOOP SECTION
-*	========================================
-*	========================================
-*/
+ *	========================================
+ *	========================================
+ *	MAIN LOOP SECTION
+ *	========================================
+ *	========================================
+ */
 void loop()
 {
 	if (back.ButtonIsPressed())
@@ -228,8 +229,8 @@ void loop()
 		Serial.println("Zmáčnuté tlačítko OK");
 		PrintWithDelay(25);
 	}
-	
-	//PrintWithDelay(5000);
-	
-	//Cultivate();
+
+	// PrintWithDelay(5000);
+
+	// Cultivate();
 }
