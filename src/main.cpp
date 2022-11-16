@@ -62,14 +62,6 @@
 // 12 ---
 // 13 LED VCC vlhkoměry
 
-// declaration of local methods
-void WaterAtRightTime(Crop crop);
-void Cultivate();
-void PrintTime();
-void PrintDate();
-byte GetWaterLevelPercent();
-void PrintWithDelay(unsigned long);
-
 // variables for crops
 Crop tomatoes(PUMP_RELAY_01, SOIL_MOISTURE_METER_01, 600, 240, 70, 3000, 8);
 Crop cucumbers(PUMP_RELAY_02, SOIL_MOISTURE_METER_02, 600, 240, 60, 6000, 8);
